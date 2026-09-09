@@ -718,6 +718,17 @@
         }
     .end annotation
 
+    const-string v0, "koukaku-kidoutai-2026"
+
+    invoke-static {p1, v0}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_repo_slug_ok
+
+    const-string p1, "koukaku-kidoutai-tv"
+
+    :cond_repo_slug_ok
     instance-of v0, p2, Lcom/example/data/repository/AnimeRepository$getAnimeDetail$1;
 
     if-eqz v0, :cond_0

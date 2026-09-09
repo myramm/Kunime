@@ -270,6 +270,17 @@
 
     iget-object v1, p0, Lcom/example/ui/screens/PlayerScreenKt$PlayerScreen$4$1;->$animeSlug:Ljava/lang/String;
 
+    const-string v2, "koukaku-kidoutai-2026"
+
+    invoke-static {v1, v2}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_ps_slug_ok
+
+    const-string v1, "koukaku-kidoutai-tv"
+
+    :cond_ps_slug_ok
     invoke-virtual {v0, v1}, Lcom/example/ui/viewmodel/AnimeViewModel;->loadAnimeDetail(Ljava/lang/String;)V
 
     .line 234

@@ -286,6 +286,17 @@
 
     move-result-object v11
 
+    const-string v12, "koukaku-kidoutai-2026"
+
+    invoke-static {v11, v12}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v12
+
+    if-eqz v12, :cond_alias_koukaku
+
+    const-string v11, "koukaku-kidoutai-tv"
+
+    :cond_alias_koukaku
     .line 570
     nop
 

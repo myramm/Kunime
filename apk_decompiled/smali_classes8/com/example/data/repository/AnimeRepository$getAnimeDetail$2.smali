@@ -225,6 +225,17 @@
 
     iget-object v2, p0, Lcom/example/data/repository/AnimeRepository$getAnimeDetail$2;->$slug:Ljava/lang/String;
 
+    const-string v3, "koukaku-kidoutai-2026"
+
+    invoke-static {v2, v3}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v3
+
+    if-eqz v3, :cond_api_slug_ok
+
+    const-string v2, "koukaku-kidoutai-tv"
+
+    :cond_api_slug_ok
     move-object v3, p0
 
     check-cast v3, Lkotlin/coroutines/Continuation;

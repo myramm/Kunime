@@ -236,7 +236,8 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
             {latestEpisodes.map((ep) => {
               const epNum = extractEpisodeNumber(ep.title);
               const animeTitle = cleanTitle(ep.title);
-              const animeSlug = ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, '');
+              let animeSlug = ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, '');
+              if (animeSlug === 'koukaku-kidoutai-2026') animeSlug = 'koukaku-kidoutai-tv';
               return (
                 <article
                   key={ep.slug || ep.id}

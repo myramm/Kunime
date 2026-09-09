@@ -31,6 +31,11 @@ async function fetchJson(endpoint, options = {}) {
   }
 }
 
+// Known slug aliases for backend discrepancies
+export const SLUG_ALIASES = {
+  'koukaku-kidoutai-2026': 'koukaku-kidoutai-tv',
+};
+
 export const api = {
   getLatestEpisodes: (page = 1, limit = 20) =>
     fetchJson(`/api/anime/latest?page=${page}&limit=${limit}`),
@@ -76,6 +81,10 @@ export const api = {
   // Smart resolver for anime details & full episode lists
   resolveAnimeDetail: async (slugOrTitle, categoryId = null) => {
     let categoryEpisodes = [];
+
+    if (slugOrTitle && SLUG_ALIASES[slugOrTitle]) {
+      slugOrTitle = SLUG_ALIASES[slugOrTitle];
+    }
 
     // 1. If categoryId is available, start fetching category episodes immediately in parallel!
     let catPromise = null;

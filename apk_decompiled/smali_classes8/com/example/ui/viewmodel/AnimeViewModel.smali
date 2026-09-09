@@ -2209,6 +2209,17 @@
 
     invoke-static {p1, v0}, Lkotlin/jvm/internal/Intrinsics;->checkNotNullParameter(Ljava/lang/Object;Ljava/lang/String;)V
 
+    const-string v0, "koukaku-kidoutai-2026"
+
+    invoke-static {p1, v0}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_slug_fix_vm
+
+    const-string p1, "koukaku-kidoutai-tv"
+
+    :cond_slug_fix_vm
     .line 264
     move-object v0, p0
 
