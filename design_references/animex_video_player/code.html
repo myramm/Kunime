@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-dim": "#131315", "primary-fixed-dim": "#c0c1ff", "tertiary-fixed-dim": "#4edea3", "surface-variant": "#353437", "on-surface": "#e5e1e4", "error-container": "#93000a", "primary-fixed": "#e1e0ff", "outline-variant": "#464554", "on-secondary": "#1d00a5", "inverse-surface": "#e5e1e4", "inverse-primary": "#494bd6", "on-primary-fixed": "#07006c", "outline": "#908fa0", "on-background": "#e5e1e4", "on-secondary-container": "#b3b1ff", "secondary": "#c3c0ff", "surface": "#131315", "primary": "#c0c1ff", "on-tertiary-container": "#000703", "on-primary": "#1000a9", "primary-container": "#8083ff", "background": "#131315", "surface-container-high": "#2a2a2c", "on-error": "#690005", "inverse-on-surface": "#313032", "on-surface-variant": "#c7c4d7", "on-primary-container": "#0d0096", "on-secondary-fixed": "#0f0069", "on-primary-fixed-variant": "#2f2ebe", "surface-bright": "#39393b", "surface-container-low": "#1c1b1d", "tertiary-container": "#00885d", "error": "#ffb4ab", "surface-container-lowest": "#0e0e10", "on-tertiary-fixed-variant": "#005236", "secondary-fixed-dim": "#c3c0ff", "surface-container-highest": "#353437", "on-tertiary": "#003824", "surface-container": "#201f21", "secondary-container": "#3626ce", "surface-tint": "#c0c1ff", "tertiary": "#4edea3", "on-error-container": "#ffdad6", "on-secondary-fixed-variant": "#3323cc", "tertiary-fixed": "#6ffbbe", "on-tertiary-fixed": "#002113", "secondary-fixed": "#e2dfff" }, borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, spacing: { "space-4": "0.25rem", "space-12": "0.75rem", "gutter-mobile": "0.75rem", "space-16": "1rem", "bottom-nav-height": "3.5rem", "touch-target-min": "3rem", "margin-mobile": "1rem", "space-32": "2rem", "space-24": "1.5rem", "space-8": "0.5rem", "space-2": "0.125rem", "space-20": "1.25rem" }, fontFamily: { "label-lg": ["Space Grotesk"], "label-md": ["Space Grotesk"], "body-md": ["Inter"], "headline-md": ["Space Grotesk"], "headline-sm": ["Space Grotesk"], "body-sm": ["Inter"], "body-lg": ["Inter"], "headline-lg": ["Space Grotesk"], "label-sm": ["Space Grotesk"] }, fontSize: { "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }] } } } };</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; background-color: #131315; } body { overscroll-behavior-y: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen"><main class="flex flex-col relative w-full pt-safe pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full pb-space-32 select-none">
+<!-- 1. Video Player Viewport (Fixed 16:9 ratio) -->
+<section class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
+<!-- Active Episode Frame Placeholder -->
+<img class="w-full h-full object-cover" data-alt="Anime fantasy scene from Frieren Beyond Journeys End showing an elven mage with flowing silver-white hair casting defensive crystalline magic in an enchanted ancient forest, hyper-sharp cinematic 2D keyframe animation, vibrant cyan sparkles against a twilight dark backdrop, crisp digital cel animation style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOrRsGLn2wlN7H2E0h8eGal1v2yoUhK-JTZqDSeuX6xssjK6kba-USSoxUHI5ZHFYF_FJGs6rh5CPB-8N2bSGIs1pmF1VJllQ7MjyL_7ymwOXkA-XsYhyoC-ivMqxYw610Xm2BWF_TzipOMb2Vpw50Tf0OzR3ed4M5jxiMRDspsJsksWuNe1B67HMUSdXCI9-78YnG3Lfyfqd6Ul2yDeYOqWRE74VjtPElqh27CfGsX4ikWInN-v_T"/>
+<!-- Interactive Layer & Scrim Overlay -->
+<div class="absolute inset-0 flex flex-col justify-between p-space-12 bg-surface-container-lowest/80 transition-opacity duration-150" id="playerOverlay">
+<!-- Player Top Bar -->
+<div class="flex items-center justify-between gap-space-8 text-on-surface">
+<div class="flex items-center gap-space-8 min-w-0">
+<button aria-label="Go back" class="flex items-center justify-center w-space-32 h-space-32 rounded bg-surface-container-high text-on-surface active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-lg">arrow_back</span>
+</button>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate text-on-surface">Frieren: Beyond Journey's End</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Episode 18 · First-Class Mage Exam</span>
+</div>
+</div>
+<div class="flex items-center gap-space-4 shrink-0">
+<button class="px-space-8 py-space-4 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm active:bg-surface-bright" type="button">
+            16:9
+          </button>
+<button class="px-space-8 py-space-4 rounded bg-surface-container-high text-tertiary-fixed-dim font-label-sm text-label-sm flex items-center gap-space-2 active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-sm">subtitles</span>
+<span>EN</span>
+</button>
+</div>
+</div>
+<!-- Center Touch Playback Controls -->
+<div class="flex items-center justify-center gap-space-24">
+<button aria-label="Rewind 10 seconds" class="flex items-center justify-center w-space-32 h-space-32 rounded-full bg-surface-container text-on-surface active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-lg">replay_10</span>
+</button>
+<button aria-label="Toggle play pause" class="flex items-center justify-center w-12 h-12 rounded-full bg-primary-container text-on-primary-container active:bg-primary" id="mainPlayPauseBtn" type="button">
+<span class="material-symbols-outlined text-headline-sm" id="playIcon" style="font-variation-settings: 'FILL' 1;">pause</span>
+</button>
+<button aria-label="Fast forward 10 seconds" class="flex items-center justify-center w-space-32 h-space-32 rounded-full bg-surface-container text-on-surface active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-lg">forward_10</span>
+</button>
+</div>
+<!-- Bottom Scrubber & Metrics -->
+<div class="flex flex-col gap-space-4">
+<!-- Scrubber Track -->
+<div class="relative w-full h-space-4 bg-surface-container-high rounded-full overflow-hidden cursor-pointer">
+<!-- Buffer Chunk Bar (Ahead) -->
+<div class="absolute left-0 top-0 bottom-0 bg-outline-variant w-[78%]"></div>
+<!-- Current Position -->
+<div class="absolute left-0 top-0 bottom-0 bg-primary w-[59%]"></div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm pt-space-2">
+<div class="flex items-center gap-space-8">
+<span class="text-on-surface font-label-md text-label-md">14:22</span>
+<span>/</span>
+<span>24:10</span>
+<span class="px-space-4 rounded bg-tertiary-container text-on-tertiary-container text-[10px] leading-3 uppercase font-label-sm">1080p</span>
+</div>
+<button aria-label="Fullscreen" class="flex items-center justify-center w-space-24 h-space-24 text-on-surface active:text-primary" type="button">
+<span class="material-symbols-outlined text-label-lg">fullscreen</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Stream Panel -->
+<div class="flex flex-col gap-space-16 px-space-16 pt-space-12">
+<!-- 2. Fast Playback & Episode Switching Bar -->
+<div class="flex flex-col gap-space-8 p-space-12 rounded-lg bg-surface-container-low">
+<div class="grid grid-cols-2 gap-space-8">
+<button class="flex items-center justify-center gap-space-4 h-10 px-space-8 rounded bg-surface-container-high text-on-surface font-label-md text-label-md active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-md">skip_previous</span>
+<span>Prev (Ep 17)</span>
+</button>
+<button class="flex items-center justify-center gap-space-4 h-10 px-space-8 rounded bg-surface-container-high text-on-surface font-label-md text-label-md active:bg-surface-bright" type="button">
+<span>Next (Ep 19)</span>
+<span class="material-symbols-outlined text-label-md">skip_next</span>
+</button>
+</div>
+<div class="flex items-center justify-between gap-space-8 pt-space-4">
+<!-- Quick Skip Intro -->
+<button class="flex-1 flex items-center justify-center gap-space-4 h-9 px-space-12 rounded bg-primary text-on-primary font-label-md text-label-md active:bg-primary-container" type="button">
+<span class="material-symbols-outlined text-label-sm">fast_forward</span>
+<span>Skip OP/ED (+85s)</span>
+</button>
+<!-- Auto-Next Pill Toggle -->
+<button class="flex items-center gap-space-4 h-9 px-space-8 rounded bg-surface-container text-tertiary-fixed-dim font-label-sm text-label-sm active:bg-surface-variant" id="autoNextToggle" type="button">
+<span class="material-symbols-outlined text-label-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Auto-Next: ON</span>
+</button>
+</div>
+</div>
+<!-- 3. Server Selector & Stream Provider (CDN / Low Latency) -->
+<div class="flex flex-col gap-space-8">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Stream Node</span>
+<span class="font-body-sm text-body-sm text-tertiary flex items-center gap-space-4">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary inline-block"></span> 0% Packet Drop
+        </span>
+</div>
+<!-- Horizontal Server Rail -->
+<div class="flex items-center gap-space-8 overflow-x-auto pb-space-4">
+<button class="shrink-0 flex items-center gap-space-8 px-space-12 h-10 rounded bg-primary-container text-on-primary-container font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-label-md" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span>Alpha (Tokyo CDN)</span>
+</button>
+<button class="shrink-0 flex items-center gap-space-8 px-space-12 h-10 rounded bg-surface-container text-on-surface font-label-md text-label-md active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-md">alt_route</span>
+<span>Beta (Direct HLS)</span>
+</button>
+<button class="shrink-0 flex items-center gap-space-8 px-space-12 h-10 rounded bg-surface-container text-on-surface font-label-md text-label-md active:bg-surface-bright" type="button">
+<span class="material-symbols-outlined text-label-md">data_saver_on</span>
+<span>Gamma (Lite Proxy)</span>
+</button>
+</div>
+<!-- Resolution Selector Bar -->
+<div class="flex items-center gap-space-4 p-space-4 rounded bg-surface-container-lowest overflow-x-auto mt-space-2">
+<button class="flex-1 min-w-[54px] py-space-4 rounded text-center font-label-sm text-label-sm bg-surface-container text-on-surface" type="button">Auto</button>
+<button class="flex-1 min-w-[54px] py-space-4 rounded text-center font-label-sm text-label-sm bg-primary text-on-primary font-bold" type="button">1080p</button>
+<button class="flex-1 min-w-[54px] py-space-4 rounded text-center font-label-sm text-label-sm text-on-surface-variant active:text-on-surface" type="button">720p</button>
+<button class="flex-1 min-w-[54px] py-space-4 rounded text-center font-label-sm text-label-sm text-on-surface-variant active:text-on-surface" type="button">480p</button>
+<button class="flex-1 min-w-[54px] py-space-4 rounded text-center font-label-sm text-label-sm text-on-surface-variant active:text-on-surface" type="button">360p</button>
+</div>
+</div>
+<!-- 4. Error Handling & Chunk Cache Status -->
+<div class="p-space-12 rounded-lg bg-surface-container-low flex flex-col gap-space-8">
+<div class="flex items-start justify-between gap-space-8">
+<div class="flex items-center gap-space-8">
+<span class="material-symbols-outlined text-tertiary text-headline-sm">format_image_left</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Buffer-Guard Enabled</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ahead by 15.4s (3 Chunks in RAM)</span>
+</div>
+</div>
+<button class="shrink-0 px-space-8 py-space-4 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm active:bg-surface-bright" type="button">
+          Troubleshoot
+        </button>
+</div>
+<div class="flex items-center justify-between pt-space-4 font-body-sm text-body-sm text-outline border-none">
+<span class="flex items-center gap-space-4">
+<span class="material-symbols-outlined text-body-sm">wifi</span>
+          4G Network (Stable 3.2 MB/s)
+        </span>
+<span class="text-tertiary-fixed-dim font-label-sm text-label-sm">Drop Rate: 0 FPS</span>
+</div>
+</div>
+<!-- 5. Quick Switch Episode Drawer -->
+<div class="flex flex-col gap-space-8">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Quick Switch Episodes</span>
+<span class="font-label-sm text-label-sm text-primary">View All (28)</span>
+</div>
+<div class="flex items-center gap-space-8 overflow-x-auto pb-space-8">
+<!-- Episode 16 -->
+<div class="shrink-0 w-36 flex flex-col gap-space-4 cursor-pointer active:opacity-80">
+<div class="relative w-36 h-20 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Anime fantasy close-up of a stoic warrior dwarf holding an iron battleaxe in snowy mountainous terrain, dynamic lighting, cinematic dark anime art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAophZulXgiGPOb0NMwFBJHqLL9iMdiGaL3305ifij_bWS7dHsLLjEMTpjGr6oB3YBKCMUBYPem9kCbG9LGUqhHZWMsB8vZNb6AhPhZicfKo65pIO3RXoEL5nLbUu1zwiaUAujjvg_kZT7q0xX7S9xeVl8fy7YNvqRvOBFDlulV7jjleABdCWjQBWnqcNzL4wxb6fw1hZBZQj4-CjdfkN8T0mwR6KX8wOy9PUIvlAMCrdKknjrBQRwX"/>
+<span class="absolute bottom-1 right-1 px-space-4 rounded bg-surface-container-lowest font-label-sm text-[10px] text-on-surface">23:45</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Ep 16 · Long-Lived Friends</span>
+</div>
+<!-- Episode 17 -->
+<div class="shrink-0 w-36 flex flex-col gap-space-4 cursor-pointer active:opacity-80">
+<div class="relative w-36 h-20 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Anime fantasy scene showing young mage Fern holding a wooden staff walking through an amber sunset cobblestone village, high contrast cel shading anime aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnVZe2QUqyk1_ZmuCj9rvG5eLC9rA15vOVO-YoYfvv0jl7uvPUMfBcXGcjVOI9VKGrlDMErn4q6yQOLBKZxGv0EvsCTsThkIToEWdOXI4pOt82G6MMRYHTXsqC6SqhrLubPEI23i0xJr3abal-Q1tMQpkCIx8agdig1DcSRzPmfbgqcpQhQEldhKY5GnLPg6MNyNMXzXZDAuGWYWykwxOaNf8viAgAEM_lfC3uRA7BrJ6TWPvg3dZh"/>
+<span class="absolute bottom-1 right-1 px-space-4 rounded bg-surface-container-lowest font-label-sm text-[10px] text-on-surface">24:12</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Ep 17 · Take Care Yourself</span>
+</div>
+<!-- Episode 18 (Now Playing) -->
+<div class="shrink-0 w-36 flex flex-col gap-space-4 cursor-pointer">
+<div class="relative w-36 h-20 rounded bg-surface-container overflow-hidden ring-0">
+<img class="w-full h-full object-cover brightness-75" data-alt="Anime battle sequence showing brilliant cyan magical shields fracturing under dark spell impact, high energy mystical explosion in 2D animation style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzlfMff24pv566bD7Jn3XoavbSuzaj6Rkte9dAd-HhlTa39P5ASOkjj-yYD_O4Gj8LTvhxIsq2SKQ30p0O_PTFGlSVKxiRkDPiqB34Ovbd3qHvk3UqTGz2nJP9IUL0n0F3vZkWxvT2onQGzoCmROh9f6HdApcu2fhYJqh1ScjtgDGA5mAfIXfWDELR9aiU5J2upLHO-lbzW5gy24hZ9_0P4AfTcD7tjxFPUhBS_hrb1nFBCr407nMG"/>
+<div class="absolute inset-0 flex items-center justify-center bg-surface-container-lowest/60">
+<span class="material-symbols-outlined text-primary text-headline-sm" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+<div class="absolute bottom-0 left-0 right-0 h-1 bg-primary"></div>
+</div>
+<span class="font-label-md text-label-md text-primary truncate">Ep 18 · First-Class Exam</span>
+</div>
+<!-- Episode 19 -->
+<div class="shrink-0 w-36 flex flex-col gap-space-4 cursor-pointer active:opacity-80">
+<div class="relative w-36 h-20 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Anime fantasy landscape showing magical bird Stille perched on a mossy branch inside a colossal domed barrier, serene lush nature background, crisp anime illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1Pf-baHc2TO8H2DbncLvzD9lO2t1vxqg6qhJ24z-ZtQq0NC6oacKLXL3DyX8oDCCsKPbdVVFePo1OcfZ7774GcVNcmzwc8N32_pvB-fXyRfmxb4GNDM9vm7_r9sc2vYPSN3DICi1cG7LV0eXMLKoP2CxX30SZgBS5AgVQG03wIYne2Ydb7cevku1mP5wCoYg_Kscje1HEEjlx5qd4UPabc34HHZjc64pw2azi5uK_U322TSE3iZJI"/>
+<span class="absolute bottom-1 right-1 px-space-4 rounded bg-surface-container-lowest font-label-sm text-[10px] text-on-surface">24:00</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface truncate">Ep 19 · Well-Laid Plans</span>
+</div>
+</div>
+</div>
+<!-- 6. Minimalist Touch Controls Guide Card -->
+<div class="flex items-center gap-space-12 p-space-12 rounded-lg bg-surface-container-low text-on-surface-variant">
+<span class="material-symbols-outlined text-outline text-headline-sm">touch_app</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Gesture Shortcuts</span>
+<span class="font-body-sm text-body-sm text-outline leading-tight">Double-tap left/right to skip 10s · Swipe edges for Brightness &amp; Volume</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const playBtn = document.getElementById('mainPlayPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    let isPlaying = true;
+
+    if (playBtn && playIcon) {
+      playBtn.addEventListener('click', function() {
+        isPlaying = !isPlaying;
+        playIcon.textContent = isPlaying ? 'pause' : 'play_arrow';
+      });
+    }
+
+    const autoToggle = document.getElementById('autoNextToggle');
+    let autoNext = true;
+    if (autoToggle) {
+      autoToggle.addEventListener('click', function() {
+        autoNext = !autoNext;
+        autoToggle.innerHTML = autoNext 
+          ? '<span class="material-symbols-outlined text-label-sm" style="font-variation-settings: \'FILL\' 1;">check_circle</span><span>Auto-Next: ON</span>'
+          : '<span class="material-symbols-outlined text-label-sm">cancel</span><span>Auto-Next: OFF</span>';
+        if (!autoNext) {
+          autoToggle.classList.remove('text-tertiary-fixed-dim');
+          autoToggle.classList.add('text-outline');
+        } else {
+          autoToggle.classList.add('text-tertiary-fixed-dim');
+          autoToggle.classList.remove('text-outline');
+        }
+      });
+    }
+  })();
+</script></main></body></html>
