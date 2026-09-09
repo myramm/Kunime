@@ -1844,6 +1844,8 @@
 
     const/4 v0, 0x1
 
+    const/4 v12, 0x1
+
     invoke-static {v12, v14, v13, v12, v0}, Landroidx/activity/compose/BackHandlerKt;->BackHandler(ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 
     .line 241
@@ -16766,6 +16768,10 @@
     .line 405
     invoke-virtual {v2, v6}, Landroid/webkit/WebSettings;->setMixedContentMode(I)V
 
+    invoke-virtual {v2, v6}, Landroid/webkit/WebSettings;->setJavaScriptCanOpenWindowsAutomatically(Z)V
+
+    invoke-virtual {v2, v6}, Landroid/webkit/WebSettings;->setSupportMultipleWindows(Z)V
+
     .line 406
     const-string v3, "Mozilla/5.0 (Linux; Android 14; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
 
@@ -18080,6 +18086,25 @@
 
     .line 218
     :cond_2
+    invoke-interface {p4}, Landroidx/compose/runtime/MutableState;->getValue()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Landroid/webkit/WebView;
+
+    if-eqz v0, :cond_exit_player
+
+    invoke-virtual {v0}, Landroid/webkit/WebView;->canGoBack()Z
+
+    move-result v1
+
+    if-eqz v1, :cond_exit_player
+
+    invoke-virtual {v0}, Landroid/webkit/WebView;->goBack()V
+
+    goto :goto_0
+
+    :cond_exit_player
     invoke-static {p4}, Lcom/example/ui/screens/PlayerScreenKt;->PlayerScreen$stopAndCleanupWebView(Landroidx/compose/runtime/MutableState;)V
 
     .line 219

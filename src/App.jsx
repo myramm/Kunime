@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import BottomNav from './components/BottomNav';
 import AboutModal from './components/AboutModal';
@@ -17,35 +17,68 @@ export default function App() {
   const [selectedEpisodeSlug, setSelectedEpisodeSlug] = useState(null);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
+  // Sync with browser/mobile back gestures via popstate
+  useEffect(() => {
+    window.history.replaceState({ tab: 'home' }, '');
+
+    function handlePopState(event) {
+      const state = event.state;
+      if (state && state.tab) {
+        setCurrentTab(state.tab);
+        setSelectedAnimeSlug(state.animeSlug || null);
+        setSelectedEpisodeSlug(state.epSlug || null);
+      } else {
+        setCurrentTab('home');
+        setSelectedAnimeSlug(null);
+        setSelectedEpisodeSlug(null);
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   // Navigation handlers
   function handleSelectAnime(slug) {
     setSelectedAnimeSlug(slug);
     setCurrentTab('detail');
+    window.history.pushState({ tab: 'detail', animeSlug: slug }, '');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function handlePlayEpisode(epSlug, aSlug) {
+    const anime = aSlug || selectedAnimeSlug;
     setSelectedEpisodeSlug(epSlug);
     if (aSlug) setSelectedAnimeSlug(aSlug);
     setCurrentTab('player');
+    window.history.pushState({ tab: 'player', epSlug, animeSlug: anime }, '');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function handleBackFromDetail() {
-    setSelectedAnimeSlug(null);
-    setCurrentTab('home');
+    if (window.history.state && window.history.state.tab === 'detail') {
+      window.history.back();
+    } else {
+      setSelectedAnimeSlug(null);
+      setCurrentTab('home');
+    }
   }
 
   function handleBackFromPlayer() {
-    if (selectedAnimeSlug) {
-      setCurrentTab('detail');
+    if (window.history.state && window.history.state.tab === 'player') {
+      window.history.back();
     } else {
-      setCurrentTab('home');
+      if (selectedAnimeSlug) {
+        setCurrentTab('detail');
+      } else {
+        setCurrentTab('home');
+      }
     }
   }
 
   function handleTabChange(tabId) {
     setCurrentTab(tabId);
+    window.history.pushState({ tab: tabId }, '');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
