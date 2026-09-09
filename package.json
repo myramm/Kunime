@@ -1,11 +1,12 @@
 {
   "name": "animex-app",
-  "version": "1.0.0-fix-4",
+  "version": "1.0.0-fix-5",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
+    "test": "node tests/test_apk_live.cjs",
     "test:apk": "node tests/test_apk_live.cjs"
   },
   "dependencies": {

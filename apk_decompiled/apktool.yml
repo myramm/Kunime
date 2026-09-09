@@ -13,7 +13,7 @@ packageInfo:
   renameManifestPackage: null
 versionInfo:
   versionCode: 1
-  versionName: 1.0.0-fix-3
+  versionName: 1.0.0-fix-5
 sharedLibrary: false
 sparseResources: false
 compactEntries: false
