@@ -1,6 +1,6 @@
 {
   "name": "animex-app",
-  "version": "1.0.0-fix-2",
+  "version": "1.0.0-fix-3",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",

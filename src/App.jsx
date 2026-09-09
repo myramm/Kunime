@@ -92,7 +92,7 @@ export default function App() {
       />
 
       {/* Main Screen Viewport */}
-      <main className="flex-1 pt-14 pb-safe w-full">
+      <main className="flex-1 pt-14 pt-safe pb-safe w-full">
         {currentTab === 'home' && (
           <HomeScreen
             onSelectAnime={handleSelectAnime}

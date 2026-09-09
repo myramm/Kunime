@@ -15169,11 +15169,6 @@
 
     move-result-object v1
 
-    .line 306
-    invoke-static {v1}, Landroidx/compose/foundation/layout/WindowInsetsPadding_androidKt;->statusBarsPadding(Landroidx/compose/ui/Modifier;)Landroidx/compose/ui/Modifier;
-
-    move-result-object v1
-
     .line 307
     const/16 v7, 0x38
 
