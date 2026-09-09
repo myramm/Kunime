@@ -357,24 +357,27 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
           {/* Quality Chips if available */}
           {epData?.qualities && epData.qualities.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto pt-1">
-              {epData.qualities.map((q) => (
-                <button
-                  key={q.id || q.label}
-                  onClick={() => {
-                    setSelectedQuality(q.quality);
-                    if (iframeRef.current && q.videoUrl) {
-                      iframeRef.current.src = q.videoUrl;
-                    }
-                  }}
-                  className={`px-2.5 py-1 rounded font-space font-bold text-[10px] border transition-colors ${
-                    selectedQuality === q.quality
-                      ? 'bg-[#4edea3] text-[#003824] border-[#4edea3]'
-                      : 'bg-[#1c1b1d] text-[#c7c4d7] border-[#262630]'
-                  }`}
-                >
-                  {q.label} ({q.server})
-                </button>
-              ))}
+              {epData.qualities.map((q, idx) => {
+                const isSelected = selectedQuality === String(q.id) || (selectedQuality === 'auto' && idx === 0) || selectedQuality === q.quality;
+                return (
+                  <button
+                    key={q.id || q.label || idx}
+                    onClick={() => {
+                      setSelectedQuality(String(q.id));
+                      if (iframeRef.current && q.videoUrl) {
+                        iframeRef.current.src = q.videoUrl;
+                      }
+                    }}
+                    className={`px-2.5 py-1 rounded font-space font-bold text-[10px] border transition-colors shrink-0 ${
+                      isSelected
+                        ? 'bg-[#4edea3] text-[#003824] border-[#4edea3]'
+                        : 'bg-[#1c1b1d] text-[#c7c4d7] border-[#262630] hover:bg-[#252528]'
+                    }`}
+                  >
+                    {q.label}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
