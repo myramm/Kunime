@@ -124,7 +124,7 @@ The script will automatically:
 4. Sign the package with v1, v2, and v3 signature schemes using `apksigner`.
 5. Verify signature integrity.
 
-The resulting signed APK will be output as `Kunime_modded.apk`.
+The resulting signed APK will be output as `kunime.apk`.
 
 ---
 

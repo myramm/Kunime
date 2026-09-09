@@ -5,7 +5,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APK_DIR="$DIR/apk_decompiled"
 OUT_UNSIGNED="$DIR/app_unsigned.apk"
 OUT_ALIGNED="$DIR/app_aligned.apk"
-OUT_SIGNED="$DIR/Kunime_modded.apk"
+OUT_SIGNED="$DIR/kunime.apk"
 KEYSTORE="$DIR/release.jks"
 
 if [ ! -f "$KEYSTORE" ]; then
@@ -36,4 +36,4 @@ apksigner sign \
 echo "==> 4. Verifying APK signature..."
 apksigner verify -v "$OUT_SIGNED"
 
-echo "==> SUCCESS! Modded APK built & signed at: $OUT_SIGNED"
+echo "==> SUCCESS! APK built & signed at: $OUT_SIGNED"
