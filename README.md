@@ -16,8 +16,9 @@ Built following the **Kinetic OLED Utility** design system with Space Grotesk & 
 
 - **Kinetic OLED Utility UI**: True black (`#0A0A0C`) canvas, `#121216` containers, `#262630` borders, `#6366F1` indigo accents, and `#4edea3` tertiary highlights for maximum battery efficiency on AMOLED/OLED displays.
 - **Smart Anime & Episode Resolver**: Multi-tiered search & fuzzy-match engine that automatically links episode slugs to catalog categories (resolves discrepancies like *Koukaku Kidoutai* seamlessly).
+- **Multi-Provider Ad-Free Stream Engine**: Clean stream aggregation across AnimAsu, Samehadaku (`https://v2.samehadaku.how/`), and MiniOppai (`https://minioppai.org/`) with automatic popup ad & malware server stripping (Vidhide, Abyss, Boosterx).
 - **Dual-Engine Playback**:
-  - **Server 1 (Direct Stream)**: Multi-quality HLS / MP4 native streaming.
+  - **Server 1 (Direct Stream)**: Multi-quality HLS / MP4 native streaming & JWPlayer embeds.
   - **Server 2 (Embed Fallback)**: Sandboxed iframe player with seamless quality selectors.
 - **Zero-Polling Telemetry**: Local caching with instant reactive navigation and under 50ms latency.
 - **Low-Data Saver Mode**: Ultra-compressed poster payloads and stream presets for low-bandwidth networks.

@@ -245,6 +245,21 @@ async function runTests() {
   console.log(`   ℹ️  Blogger stream HEAD response: HTTP ${bloggerCode}`);
   assert(bloggerCode === 200 || bloggerCode === 302, 'Upstream clean video URL is reachable and active');
 
+  // Case D: Anime with MiniOppai match (Kazoku Haha to Shimai no Kyousei)
+  console.log('   Checking Episode with MiniOppai stream: nonton-kazoku-haha-to-shimai-no-kyousei-episode-1');
+  const epKazoku = await fetchJson('/api/anime/episode/nonton-kazoku-haha-to-shimai-no-kyousei-episode-1');
+  assert(epKazoku.status === 200, 'Kazoku ep 1 HTTP 200');
+  assert(epKazoku.data.success === true, 'Kazoku ep 1 success === true');
+  const kzQualities = epKazoku.data.data.qualities || [];
+  console.log(`   ℹ️  Qualities for Kazoku Haha 1: ${kzQualities.map(q => `${q.quality} (${q.server})`).join(', ')}`);
+  const kzHasAds = kzQualities.some(q => 
+    BLOCKED_AD_SERVERS.some(ad => (q.server || '').toLowerCase().includes(ad) || (q.videoUrl || '').toLowerCase().includes(ad))
+  );
+  assert(!kzHasAds, 'Zero ad servers present in Kazoku Haha qualities list');
+  const hasMiniOppaiStream = kzQualities.some(q => q.server.includes('MiniOppai'));
+  assert(hasMiniOppaiStream, 'MiniOppai clean stream (StreamPai / Direct CDN) successfully injected');
+  assert(typeof epKazoku.data.data.videoUrl === 'string' && epKazoku.data.data.videoUrl.length > 0, 'Kazoku videoUrl present and non-empty');
+
   console.log('\n===============================================================');
   console.log(`🎯 TEST RESULTS: ${passedTests}/${totalTests} PASSED (${failedTests} FAILED)`);
   console.log('===============================================================');
