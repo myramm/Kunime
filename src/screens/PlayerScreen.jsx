@@ -247,7 +247,74 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
           </div>
         </div>
 
-        {/* 3. Server Selector & Stream Provider */}
+        {/* 3. Quick Switch Episodes Rail (Positioned prominently for immediate access) */}
+        <div className="flex flex-col gap-2 p-3 rounded-lg bg-[#121216] border border-[#262630]">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <span className="material-symbols-outlined text-[#6366F1] text-[18px]">playlist_play</span>
+              <span className="font-space font-bold text-[13px] text-[#e5e1e4]">
+                Daftar Episode {episodes.length > 0 ? `(${episodes.length})` : ''}
+              </span>
+            </div>
+            <button
+              onClick={onBack}
+              className="font-space font-semibold text-[11px] text-[#6366F1] hover:text-[#818cf8] flex items-center gap-0.5 px-2 py-0.5 rounded bg-[#1c1b1d] border border-[#262630]"
+            >
+              <span>Detail Anime</span>
+              <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+            </button>
+          </div>
+
+          {episodes.length === 0 ? (
+            <div className="flex items-center gap-2.5 py-3 px-3 bg-[#1c1b1d] rounded-lg border border-[#262630] animate-pulse">
+              <span className="material-symbols-outlined text-[#6366F1] text-[18px] animate-spin">progress_activity</span>
+              <span className="font-space text-[12px] text-[#c7c4d7]">Memuat daftar episode anime...</span>
+            </div>
+          ) : (
+            <div className="flex gap-2.5 overflow-x-auto pb-1 pt-1">
+              {episodes.map((ep, idx) => {
+                const isActive = ep.slug === episodeSlug;
+                return (
+                  <div
+                    key={ep.slug || idx}
+                    onClick={() => onSelectEpisode(ep.slug)}
+                    className={`shrink-0 w-36 rounded-lg p-1.5 border cursor-pointer transition-all ${
+                      isActive
+                        ? 'bg-[#2a2a2c] border-[#6366F1] ring-1 ring-[#6366F1]'
+                        : 'bg-[#1c1b1d] border-[#262630] hover:bg-[#201f21]'
+                    }`}
+                  >
+                    <div className="relative w-full aspect-video rounded overflow-hidden bg-[#2a2a2c] mb-1">
+                      <img
+                        className="w-full h-full object-cover"
+                        src={ep.thumbnail || animeDetail?.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
+                        alt={ep.title}
+                        loading="lazy"
+                      />
+                      {isActive && (
+                        <div className="absolute inset-0 bg-[#6366F1]/40 flex items-center justify-center">
+                          <span className="material-symbols-outlined text-white text-[20px] fill animate-pulse">
+                            equalizer
+                          </span>
+                        </div>
+                      )}
+                      <span className="absolute bottom-1 right-1 bg-[#0e0e10]/90 px-1 rounded font-space text-[8px] text-white">
+                        24m
+                      </span>
+                    </div>
+                    <span className={`font-space font-bold text-[11px] truncate block ${
+                      isActive ? 'text-[#6366F1]' : 'text-[#e5e1e4]'
+                    }`}>
+                      {cleanEpLabel(ep.title)}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* 4. Server Selector & Stream Provider */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <span className="font-space font-semibold text-[11px] uppercase tracking-wider text-[#908fa0]">
@@ -311,7 +378,7 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
           )}
         </div>
 
-        {/* 4. Buffer-Guard & Network Status Banner */}
+        {/* 5. Buffer-Guard & Network Status Banner */}
         <div className="flex items-center justify-between p-3 rounded-lg bg-[#1c1b1d] border border-[#262630]">
           <div className="flex items-center gap-2.5">
             <span className="material-symbols-outlined text-[#4edea3] text-[20px]">
@@ -330,61 +397,6 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
             Drop Rate: 0 FPS
           </span>
         </div>
-
-        {/* 5. Quick Switch Episodes Rail */}
-        {episodes.length > 0 && (
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center justify-between">
-              <span className="font-space font-semibold text-[11px] uppercase tracking-wider text-[#908fa0]">
-                Quick Switch Episodes
-              </span>
-              <span className="font-space text-[11px] text-[#c0c1ff]">
-                {episodes.length} Episode
-              </span>
-            </div>
-
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {episodes.map((ep, idx) => {
-                const isActive = ep.slug === episodeSlug;
-                return (
-                  <div
-                    key={ep.slug || idx}
-                    onClick={() => onSelectEpisode(ep.slug)}
-                    className={`shrink-0 w-36 rounded-lg p-1.5 border cursor-pointer transition-colors ${
-                      isActive
-                        ? 'bg-[#2a2a2c] border-[#6366F1]'
-                        : 'bg-[#1c1b1d] border-[#262630] hover:bg-[#201f21]'
-                    }`}
-                  >
-                    <div className="relative w-full aspect-video rounded overflow-hidden bg-[#2a2a2c] mb-1">
-                      <img
-                        className="w-full h-full object-cover"
-                        src={ep.thumbnail || animeDetail?.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
-                        alt={ep.title}
-                        loading="lazy"
-                      />
-                      {isActive && (
-                        <div className="absolute inset-0 bg-[#6366F1]/30 flex items-center justify-center">
-                          <span className="material-symbols-outlined text-white text-[18px] fill">
-                            equalizer
-                          </span>
-                        </div>
-                      )}
-                      <span className="absolute bottom-1 right-1 bg-[#0e0e10]/90 px-1 rounded font-space text-[8px] text-white">
-                        24m
-                      </span>
-                    </div>
-                    <span className={`font-space font-bold text-[11px] truncate block ${
-                      isActive ? 'text-[#6366F1]' : 'text-[#e5e1e4]'
-                    }`}>
-                      {cleanEpLabel(ep.title)}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
 
         {/* 6. Gesture Shortcuts Tip */}
         <div className="flex items-center gap-2.5 p-3 rounded-lg bg-[#121216] border border-[#262630] text-[#908fa0]">

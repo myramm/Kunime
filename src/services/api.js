@@ -77,16 +77,10 @@ export const api = {
   resolveAnimeDetail: async (slugOrTitle, categoryId = null) => {
     let categoryEpisodes = [];
 
-    // 1. Fetch category episodes if categoryId is available
+    // 1. If categoryId is available, start fetching category episodes immediately in parallel!
+    let catPromise = null;
     if (categoryId) {
-      try {
-        const catRes = await api.getEpisodesByCategory(categoryId);
-        if (catRes && catRes.data && Array.isArray(catRes.data)) {
-          categoryEpisodes = catRes.data;
-        }
-      } catch (e) {
-        console.warn('Category fetch error:', e);
-      }
+      catPromise = api.getEpisodesByCategory(categoryId).catch(() => null);
     }
 
     // Helper to sanitize query for search API
@@ -102,62 +96,67 @@ export const api = {
         .trim();
     }
 
+    let detail = null;
+
     // 2. Direct slug lookup
     if (slugOrTitle) {
       try {
         const directRes = await api.getAnimeDetail(slugOrTitle, { silent: true });
         if (directRes && directRes.data) {
-          const detail = directRes.data;
-          if ((!detail.episodes || detail.episodes.length === 0) && categoryEpisodes.length > 0) {
-            detail.episodes = categoryEpisodes;
-          }
-          return detail;
+          detail = directRes.data;
         }
       } catch (e) {
         // Direct slug lookup failed, continue to search
       }
 
       // 3. Search fallback using clean title / keywords
-      try {
-        const cleanQuery = cleanForSearch(slugOrTitle);
-        if (cleanQuery.length >= 2) {
-          const searchRes = await api.searchAnime(cleanQuery, 10);
-          if (searchRes && searchRes.data && searchRes.data.length > 0) {
-            let match = null;
-            if (categoryId) {
-              match = searchRes.data.find(item => String(item.id) === String(categoryId));
-            }
-            if (!match) {
-              match = searchRes.data[0];
-            }
+      if (!detail) {
+        try {
+          const cleanQuery = cleanForSearch(slugOrTitle);
+          if (cleanQuery.length >= 2) {
+            const searchRes = await api.searchAnime(cleanQuery, 10);
+            if (searchRes && searchRes.data && searchRes.data.length > 0) {
+              let match = null;
+              if (categoryId) {
+                match = searchRes.data.find(item => String(item.id) === String(categoryId));
+              }
+              if (!match) {
+                match = searchRes.data[0];
+              }
 
-            if (match && match.slug) {
-              try {
-                const matchedDetail = await api.getAnimeDetail(match.slug, { silent: true });
-                if (matchedDetail && matchedDetail.data) {
-                  const detail = matchedDetail.data;
-                  if ((!detail.episodes || detail.episodes.length === 0) && categoryEpisodes.length > 0) {
-                    detail.episodes = categoryEpisodes;
+              if (match && match.slug) {
+                try {
+                  const matchedDetail = await api.getAnimeDetail(match.slug, { silent: true });
+                  if (matchedDetail && matchedDetail.data) {
+                    detail = matchedDetail.data;
                   }
-                  return detail;
-                }
-              } catch (err) {}
-            }
+                } catch (err) {}
+              }
 
-            // If match has category id and we still need categoryEpisodes
-            if (match && match.id && categoryEpisodes.length === 0) {
-              try {
-                const catRes = await api.getEpisodesByCategory(match.id);
-                if (catRes && catRes.data && Array.isArray(catRes.data)) {
-                  categoryEpisodes = catRes.data;
-                }
-              } catch (e) {}
+              if (match && match.id && !catPromise) {
+                catPromise = api.getEpisodesByCategory(match.id).catch(() => null);
+              }
             }
           }
+        } catch (e) {
+          console.warn('Search fallback error:', e);
         }
-      } catch (e) {
-        console.warn('Search fallback error:', e);
       }
+    }
+
+    // Await category episodes if in flight
+    if (catPromise) {
+      const catRes = await catPromise;
+      if (catRes && catRes.data && Array.isArray(catRes.data)) {
+        categoryEpisodes = catRes.data;
+      }
+    }
+
+    if (detail) {
+      if ((!detail.episodes || detail.episodes.length === 0) && categoryEpisodes.length > 0) {
+        detail.episodes = categoryEpisodes;
+      }
+      return detail;
     }
 
     // 4. Return synthetic detail if we have category episodes

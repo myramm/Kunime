@@ -236,15 +236,20 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
             {latestEpisodes.map((ep) => {
               const epNum = extractEpisodeNumber(ep.title);
               const animeTitle = cleanTitle(ep.title);
+              const animeSlug = ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, '');
               return (
                 <article
                   key={ep.slug || ep.id}
-                  onClick={() => onPlayEpisode(ep.slug, ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, ''))}
-                  className="bg-[#1c1b1d] hover:bg-[#201f21] rounded-lg p-2 flex flex-col justify-between border border-[#262630] cursor-pointer active:scale-[0.98] transition-transform"
+                  className="bg-[#1c1b1d] hover:bg-[#201f21] rounded-lg p-2 flex flex-col justify-between border border-[#262630] transition-colors"
                 >
-                  <div className="relative w-full aspect-[2/3] bg-[#2a2a2c] rounded overflow-hidden">
+                  {/* Thumbnail click plays the episode */}
+                  <div
+                    className="relative w-full aspect-[2/3] bg-[#2a2a2c] rounded overflow-hidden cursor-pointer group"
+                    onClick={() => onPlayEpisode(ep.slug, animeSlug)}
+                    title={`Putar ${animeTitle} ${epNum}`}
+                  >
                     <img
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                       src={ep.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
                       alt={ep.title}
                       loading="lazy"
@@ -258,18 +263,42 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
                         1080p
                       </span>
                     </div>
+                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <div className="w-9 h-9 rounded-full bg-[#6366F1] flex items-center justify-center shadow-lg">
+                        <span className="material-symbols-outlined text-white text-[20px] fill">play_arrow</span>
+                      </div>
+                    </div>
                     <span className="absolute bottom-1.5 right-1.5 bg-[#0e0e10]/90 text-[#e5e1e4] font-space font-semibold text-[9px] px-1.5 py-0.5 rounded border border-[#262630]">
                       {formatTime(ep.date)}
                     </span>
                   </div>
 
                   <div className="mt-2 min-w-0">
-                    <h4 className="font-space font-bold text-[13px] text-[#e5e1e4] truncate leading-tight">
+                    {/* Title click opens anime DetailScreen (All Episodes) */}
+                    <h4
+                      onClick={() => onSelectAnime(animeSlug)}
+                      className="font-space font-bold text-[13px] text-[#e5e1e4] truncate leading-tight hover:text-[#6366F1] cursor-pointer"
+                      title={`${animeTitle} (Buka Detail)`}
+                    >
                       {animeTitle}
                     </h4>
-                    <div className="flex items-center justify-between mt-1">
-                      <span className="font-space font-bold text-[11px] text-[#6366F1]">{epNum}</span>
-                      <span className="font-space text-[11px] text-[#908fa0]">24 min</span>
+                    <div className="flex items-center justify-between mt-1.5">
+                      <button
+                        onClick={() => onPlayEpisode(ep.slug, animeSlug)}
+                        className="font-space font-bold text-[11px] text-[#6366F1] hover:underline flex items-center gap-0.5"
+                        title="Putar episode ini"
+                      >
+                        <span className="material-symbols-outlined text-[13px] fill">play_circle</span>
+                        <span>{epNum}</span>
+                      </button>
+                      <button
+                        onClick={() => onSelectAnime(animeSlug)}
+                        className="font-space font-semibold text-[10px] text-[#c7c4d7] hover:text-white px-2 py-0.5 bg-[#2a2a2c] active:bg-[#353437] rounded border border-[#464554] flex items-center gap-0.5"
+                        title="Lihat semua daftar episode"
+                      >
+                        <span className="material-symbols-outlined text-[11px]">list</span>
+                        <span>All Eps</span>
+                      </button>
                     </div>
                   </div>
                 </article>
