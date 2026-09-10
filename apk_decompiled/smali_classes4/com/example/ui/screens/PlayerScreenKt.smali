@@ -16973,29 +16973,17 @@
 
     move-result v0
 
-    if-lez v0, :cond_0
-
-    const/4 v0, 0x1
-
-    goto :goto_0
-
-    :cond_0
-    const/4 v0, 0x0
-
-    :goto_0
-    if-eqz v0, :cond_1
-
-    invoke-virtual {p1}, Landroid/webkit/WebView;->getUrl()Ljava/lang/String;
-
-    move-result-object v0
-
-    invoke-static {v0, p0}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
-
-    move-result v0
-
-    if-nez v0, :cond_1
+    if-lez v0, :cond_1
 
     .line 465
+    # Stop any in-progress loading first
+    invoke-virtual {p1}, Landroid/webkit/WebView;->stopLoading()V
+
+    # Clear cache to avoid stale stream
+    const/4 v0, 0x1
+    invoke-virtual {p1, v0}, Landroid/webkit/WebView;->clearCache(Z)V
+
+    # Load new episode URL unconditionally
     invoke-virtual {p1, p0}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
 
     .line 467

@@ -37,8 +37,10 @@ export const SLUG_ALIASES = {
 };
 
 export const api = {
-  getLatestEpisodes: (page = 1, limit = 20) =>
-    fetchJson(`/api/anime/latest?page=${page}&limit=${limit}`),
+  clearCache: () => cache.clear(),
+
+  getLatestEpisodes: (page = 1, limit = 20, options = {}) =>
+    fetchJson(`/api/anime/latest?page=${page}&limit=${limit}`, options),
 
   getFilteredAnime: (params = {}) => {
     const query = new URLSearchParams();

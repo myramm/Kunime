@@ -129,26 +129,41 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
     }
   }
 
-  function getEpNum(title) {
-    if (!title) return 0;
-    const m = title.match(/Episode\s+(\d+)/i) || title.match(/Ep\s*(\d+)/i);
+  function getEpNum(str) {
+    if (!str) return 0;
+    const m = str.match(/Episode\s+(\d+)/i) ||
+              str.match(/Ep\s*(\d+)/i) ||
+              str.match(/[-_]episode[-_](\d+)/i) ||
+              str.match(/[-_](\d+)$/);
     return m ? parseInt(m[1], 10) : 0;
   }
 
   // Find next and previous episodes
   const episodes = animeDetail?.episodes || [];
-  const currentEpNum = epData ? getEpNum(epData.title) : 0;
+  const currentEpNum = (epData ? getEpNum(epData.title) : 0) || getEpNum(episodeSlug);
   let prevEp = null;
   let nextEp = null;
 
-  if (currentEpNum > 0 && episodes.length > 0) {
-    prevEp = episodes.find(e => getEpNum(e.title) === currentEpNum - 1) || null;
-    nextEp = episodes.find(e => getEpNum(e.title) === currentEpNum + 1) || null;
-  } else {
+  if (episodes.length > 0) {
+    const firstNum = getEpNum(episodes[0]?.title || episodes[0]?.slug);
+    const lastNum = getEpNum(episodes[episodes.length - 1]?.title || episodes[episodes.length - 1]?.slug);
+    const isDescending = firstNum >= lastNum;
+
+    if (currentEpNum > 0) {
+      prevEp = episodes.find(e => getEpNum(e.title || e.slug) === currentEpNum - 1) || null;
+      nextEp = episodes.find(e => getEpNum(e.title || e.slug) === currentEpNum + 1) || null;
+    }
+
     const currentIdx = episodes.findIndex(e => e.slug === episodeSlug);
     if (currentIdx >= 0) {
-      prevEp = currentIdx > 0 ? episodes[currentIdx - 1] : null;
-      nextEp = currentIdx < episodes.length - 1 ? episodes[currentIdx + 1] : null;
+      if (!prevEp) {
+        const prevIdx = isDescending ? currentIdx + 1 : currentIdx - 1;
+        prevEp = (prevIdx >= 0 && prevIdx < episodes.length) ? episodes[prevIdx] : null;
+      }
+      if (!nextEp) {
+        const nextIdx = isDescending ? currentIdx - 1 : currentIdx + 1;
+        nextEp = (nextIdx >= 0 && nextIdx < episodes.length) ? episodes[nextIdx] : null;
+      }
     }
   }
 

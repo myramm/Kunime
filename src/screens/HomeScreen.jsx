@@ -14,6 +14,10 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
   const [isPulling, setIsPulling] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const touchStartY = useRef(0);
+  const pullYRef = useRef(0);
+  const isPullingRef = useRef(false);
+  const isRefreshingRef = useRef(false);
+  const isLoadingRef = useRef(false);
   const PULL_THRESHOLD = 70;
 
   useEffect(() => {
@@ -30,6 +34,8 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
   }, []);
 
   async function loadHomeData() {
+    if (isLoadingRef.current) return;
+    isLoadingRef.current = true;
     setLoading(true);
     setError(null);
     try {
@@ -49,6 +55,7 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
       console.error(err);
       setError('Gagal memuat katalog anime. Silakan periksa koneksi internet.');
     } finally {
+      isLoadingRef.current = false;
       setLoading(false);
     }
   }
@@ -96,43 +103,88 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
     return title.replace(/^Nonton\s+/i, '').replace(/Episode\s+\d+.*$/i, '').trim();
   }
 
-  // Pull-to-refresh handlers
-  function handleTouchStart(e) {
-    if (window.scrollY === 0 && !isRefreshing) {
-      touchStartY.current = e.touches[0].clientY;
+  // Pull-to-refresh handlers (supports touch devices, mobile emulators, and pointer drag)
+  function startPull(clientY) {
+    if (window.scrollY === 0 && !isRefreshingRef.current && !isLoadingRef.current) {
+      touchStartY.current = clientY;
+      pullYRef.current = 0;
+      isPullingRef.current = true;
       setIsPulling(true);
     }
   }
 
-  function handleTouchMove(e) {
-    if (!isPulling) return;
-    const delta = e.touches[0].clientY - touchStartY.current;
+  function movePull(clientY) {
+    if (!isPullingRef.current) return;
+    const delta = clientY - touchStartY.current;
     if (delta > 0) {
-      // Rubber-band: resist after 40px
+      // Rubber-band resistance
       const distance = Math.min(delta * 0.5, PULL_THRESHOLD + 20);
+      pullYRef.current = distance;
       setPullY(distance);
     }
   }
 
-  async function handleTouchEnd() {
-    if (!isPulling) return;
+  async function endPull() {
+    if (!isPullingRef.current) return;
+    isPullingRef.current = false;
     setIsPulling(false);
-    if (pullY >= PULL_THRESHOLD && !isRefreshing && !loading) {
+    const dist = pullYRef.current;
+    pullYRef.current = 0;
+    if (dist >= PULL_THRESHOLD && !isRefreshingRef.current && !isLoadingRef.current) {
+      isRefreshingRef.current = true;
       setIsRefreshing(true);
       setPullY(0);
-      await loadHomeData();
-      setIsRefreshing(false);
+      try {
+        api.clearCache?.();
+        await loadHomeData();
+      } finally {
+        isRefreshingRef.current = false;
+        setIsRefreshing(false);
+      }
     } else {
       setPullY(0);
     }
   }
 
+  function handleTouchStart(e) {
+    if (e.touches && e.touches.length > 0) {
+      startPull(e.touches[0].clientY);
+    }
+  }
+
+  function handleTouchMove(e) {
+    if (e.touches && e.touches.length > 0) {
+      movePull(e.touches[0].clientY);
+    }
+  }
+
+  function handleTouchEnd() {
+    endPull();
+  }
+
+  function handlePointerDown(e) {
+    if (e.button === 0) {
+      startPull(e.clientY);
+    }
+  }
+
+  function handlePointerMove(e) {
+    movePull(e.clientY);
+  }
+
+  function handlePointerUp() {
+    endPull();
+  }
+
   return (
     <div
-      className="flex flex-col w-full px-4 pb-24 max-w-2xl mx-auto"
+      className="flex flex-col w-full px-4 pb-24 max-w-2xl mx-auto touch-pan-y"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
     >
       {/* Pull-to-Refresh Indicator */}
       {(pullY > 0 || isRefreshing) && (
