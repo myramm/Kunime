@@ -118,8 +118,8 @@ export const api = {
         // Direct slug lookup failed, continue to search
       }
 
-      // 3. Search fallback using clean title / keywords
-      if (!detail) {
+      // 3. Search fallback using clean title / keywords if not found or episodes are empty
+      if (!detail || !detail.episodes || detail.episodes.length === 0) {
         try {
           const cleanQuery = cleanForSearch(slugOrTitle);
           if (cleanQuery.length >= 2) {
@@ -136,7 +136,9 @@ export const api = {
               if (match && match.slug) {
                 try {
                   const matchedDetail = await api.getAnimeDetail(match.slug, { silent: true });
-                  if (matchedDetail && matchedDetail.data) {
+                  if (matchedDetail && matchedDetail.data && matchedDetail.data.episodes && matchedDetail.data.episodes.length > 0) {
+                    detail = matchedDetail.data;
+                  } else if (!detail && matchedDetail && matchedDetail.data) {
                     detail = matchedDetail.data;
                   }
                 } catch (err) {}

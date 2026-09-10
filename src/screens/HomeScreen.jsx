@@ -238,6 +238,7 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
               const animeTitle = cleanTitle(ep.title);
               let animeSlug = ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, '');
               if (animeSlug === 'koukaku-kidoutai-2026') animeSlug = 'koukaku-kidoutai-tv';
+              const is18Plus = ep.type === '18+' || ep.source === 'minioppai';
               return (
                 <article
                   key={ep.slug || ep.id}
@@ -256,7 +257,12 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
                       loading="lazy"
                       onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'; }}
                     />
-                    <div className="absolute top-1.5 left-1.5 flex gap-1">
+                    <div className="absolute top-1.5 left-1.5 flex gap-1 items-center">
+                      {is18Plus && (
+                        <span className="bg-[#ef4444] text-white font-space font-bold text-[9px] px-1.5 py-0.5 rounded shadow-sm">
+                          18+
+                        </span>
+                      )}
                       <span className="bg-[#0e0e10]/90 text-[#4edea3] font-space font-bold text-[9px] px-1.5 py-0.5 rounded border border-[#262630]">
                         SUB
                       </span>
