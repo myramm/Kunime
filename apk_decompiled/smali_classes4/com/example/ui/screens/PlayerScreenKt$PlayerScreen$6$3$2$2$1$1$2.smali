@@ -161,7 +161,7 @@
     return v0
 
     :cond_ad_4
-    const-string v2, "bet"
+    const-string v2, "betting"
 
     invoke-virtual {v1, v2}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 

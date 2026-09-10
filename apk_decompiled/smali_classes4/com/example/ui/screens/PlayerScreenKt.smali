@@ -3091,6 +3091,43 @@
     .line 298
     nop
 
+    # Derive current episode slug and title from streamState if Success
+    invoke-static/range {v20 .. v20}, Lcom/example/ui/screens/PlayerScreenKt;->PlayerScreen$lambda$1(Landroidx/compose/runtime/State;)Lcom/example/ui/viewmodel/UiState;
+
+    move-result-object v0
+
+    instance-of v1, v0, Lcom/example/ui/viewmodel/UiState$Success;
+
+    if-eqz v1, :cond_skip_stream_override
+
+    check-cast v0, Lcom/example/ui/viewmodel/UiState$Success;
+
+    invoke-virtual {v0}, Lcom/example/ui/viewmodel/UiState$Success;->getData()Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, Lcom/example/data/model/EpisodeDetailData;
+
+    if-eqz v0, :cond_skip_stream_override
+
+    invoke-virtual {v0}, Lcom/example/data/model/EpisodeDetailData;->getTitle()Ljava/lang/String;
+
+    move-result-object v1
+
+    if-eqz v1, :cond_skip_title_override
+
+    move-object/from16 p3, v1
+
+    :cond_skip_title_override
+    invoke-virtual {v0}, Lcom/example/data/model/EpisodeDetailData;->getSlug()Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_skip_stream_override
+
+    move-object/from16 p0, v0
+
+    :cond_skip_stream_override
     .line 302
     new-instance v0, Lcom/example/ui/screens/PlayerScreenKt$$ExternalSyntheticLambda17;
 
@@ -4670,7 +4707,7 @@
     invoke-static {v10}, Landroidx/compose/runtime/ComposerKt;->sourceInformationMarkerEnd(Landroidx/compose/runtime/Composer;)V
 
     .line 387
-    const/16 v98, 0x30
+    const/16 v98, 0x1b0
 
     const/16 v99, 0x0
 
@@ -11269,9 +11306,18 @@
     .local v41, "$changed\\7":I
     invoke-static {v8, v0, v1}, Landroidx/compose/runtime/ComposerKt;->sourceInformationMarkerStart(Landroidx/compose/runtime/Composer;ILjava/lang/String;)V
 
-    if-lez v6, :cond_7
+    # prevEp: lower episode number in descending list = index + 1
+    if-ltz v6, :cond_7
 
-    add-int/lit8 v0, v6, -0x1
+    invoke-interface {v7}, Ljava/util/List;->size()I
+
+    move-result v0
+
+    add-int/lit8 v0, v0, -0x1
+
+    if-ge v6, v0, :cond_7
+
+    add-int/lit8 v0, v6, 0x1
 
     invoke-static {v7, v0}, Lkotlin/collections/CollectionsKt;->getOrNull(Ljava/util/List;I)Ljava/lang/Object;
 
@@ -11289,17 +11335,10 @@
     .line 622
     .local v1, "prevEp\\8":Lcom/example/data/model/EpisodeItem;
     :goto_4
-    if-ltz v6, :cond_8
+    # nextEp: higher episode number in descending list = index - 1
+    if-lez v6, :cond_8
 
-    invoke-interface {v7}, Ljava/util/List;->size()I
-
-    move-result v0
-
-    add-int/lit8 v0, v0, -0x1
-
-    if-ge v6, v0, :cond_8
-
-    add-int/lit8 v0, v6, 0x1
+    add-int/lit8 v0, v6, -0x1
 
     invoke-static {v7, v0}, Lkotlin/collections/CollectionsKt;->getOrNull(Ljava/util/List;I)Ljava/lang/Object;
 
@@ -14224,7 +14263,7 @@
 
     move-result-object v6
 
-    add-int/lit8 v8, p5, -0x1
+    add-int/lit8 v8, p5, 0x1
 
     .line 630
     move-object v2, p1
@@ -14317,7 +14356,7 @@
 
     move-result-object v6
 
-    add-int/lit8 v8, p5, 0x1
+    add-int/lit8 v8, p5, -0x1
 
     .line 661
     move-object v2, p1
@@ -16956,7 +16995,7 @@
 .end method
 
 .method static final PlayerScreen$lambda$102$lambda$101$lambda$61$lambda$55$lambda$54(Ljava/lang/String;Landroid/webkit/WebView;)Lkotlin/Unit;
-    .locals 1
+    .locals 2
     .param p0, "$urlToLoad"    # Ljava/lang/String;
     .param p1, "view"    # Landroid/webkit/WebView;
 
@@ -16976,14 +17015,22 @@
     if-lez v0, :cond_1
 
     .line 465
-    # Stop any in-progress loading first
+    invoke-virtual {p1}, Landroid/webkit/WebView;->getUrl()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-static {v0, p0}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
+
+    move-result v1
+
+    if-nez v1, :cond_1
+
     invoke-virtual {p1}, Landroid/webkit/WebView;->stopLoading()V
 
-    # Clear cache to avoid stale stream
-    const/4 v0, 0x1
-    invoke-virtual {p1, v0}, Landroid/webkit/WebView;->clearCache(Z)V
+    const/4 v1, 0x1
 
-    # Load new episode URL unconditionally
+    invoke-virtual {p1, v1}, Landroid/webkit/WebView;->clearCache(Z)V
+
     invoke-virtual {p1, p0}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
 
     .line 467
