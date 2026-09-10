@@ -346,7 +346,7 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-2.5">
-            {latestEpisodes.map((ep) => {
+            {latestEpisodes.map((ep, idx) => {
               const epNum = extractEpisodeNumber(ep.title);
               const animeTitle = cleanTitle(ep.title);
               let animeSlug = ep.slug.replace(/^nonton-/, '').replace(/-episode-\d+.*$/, '');
@@ -354,7 +354,7 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
               const is18Plus = ep.type === '18+' || ep.source === 'minioppai';
               return (
                 <article
-                  key={ep.slug || ep.id}
+                  key={`${ep.slug || ep.id || 'ep'}_${idx}`}
                   className="bg-[#1c1b1d] hover:bg-[#201f21] rounded-lg p-2 flex flex-col justify-between border border-[#262630] transition-colors"
                 >
                   {/* Thumbnail click plays the episode */}

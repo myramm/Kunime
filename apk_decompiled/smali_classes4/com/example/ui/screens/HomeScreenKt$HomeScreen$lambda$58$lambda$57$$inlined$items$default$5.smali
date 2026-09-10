@@ -262,6 +262,11 @@
 
     move-result-object v11
 
+    if-nez v11, :cond_slug_safe
+
+    const-string v11, ""
+
+    :cond_slug_safe
     .line 571
     const-string v12, "nonton-"
 
@@ -312,6 +317,11 @@
 
     move-result-object v13
 
+    if-nez v13, :cond_slug2_safe
+
+    const-string v13, ""
+
+    :cond_slug2_safe
     check-cast v13, Ljava/lang/CharSequence;
 
     const/4 v14, 0x0
@@ -350,10 +360,21 @@
 
     move-result-object v13
 
+    if-nez v13, :cond_title_safe
+
+    const-string v13, "Anime"
+
+    :cond_title_safe
     .line 578
     invoke-virtual {v6}, Lcom/example/data/model/LatestEpisodeItem;->getThumbnail()Ljava/lang/String;
 
     move-result-object v14
+
+    if-nez v14, :cond_thumb_safe
+
+    const-string v14, ""
+
+    :cond_thumb_safe
 
     .line 579
     new-instance v12, Ljava/lang/StringBuilder;

@@ -77,11 +77,14 @@
 
 # virtual methods
 .method public final invoke(I)Ljava/lang/Object;
-    .locals 2
+    .locals 3
     .param p1, "index"    # I
 
     .line 461
+    :try_start_0
     iget-object v0, p0, Lcom/example/ui/screens/SearchCatalogScreenKt$SearchCatalogScreen$lambda$86$lambda$85$$inlined$items$default$2;->$key:Lkotlin/jvm/functions/Function1;
+
+    if-eqz v0, :cond_0
 
     iget-object v1, p0, Lcom/example/ui/screens/SearchCatalogScreenKt$SearchCatalogScreen$lambda$86$lambda$85$$inlined$items$default$2;->$items:Ljava/util/List;
 
@@ -90,6 +93,35 @@
     move-result-object v1
 
     invoke-interface {v0, v1}, Lkotlin/jvm/functions/Function1;->invoke(Ljava/lang/Object;)Ljava/lang/Object;
+
+    move-result-object v0
+
+    invoke-static {v0}, Ljava/lang/String;->valueOf(Ljava/lang/Object;)Ljava/lang/String;
+
+    move-result-object v0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catch_0
+
+    goto :goto_0
+
+    :catch_0
+    :cond_0
+    const-string v0, "item"
+
+    :goto_0
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v1, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v2, "_"
+
+    invoke-virtual {v1, v2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1, p1}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
 
     move-result-object v0
 

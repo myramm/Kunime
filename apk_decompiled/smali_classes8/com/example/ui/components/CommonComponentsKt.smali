@@ -106,6 +106,11 @@
 
     move/from16 v10, p8
 
+    if-nez v1, :cond_title_safe_param
+
+    const-string v1, "Anime"
+
+    :cond_title_safe_param
     const-string v3, "title"
 
     invoke-static {v1, v3}, Lkotlin/jvm/internal/Intrinsics;->checkNotNullParameter(Ljava/lang/Object;Ljava/lang/String;)V
