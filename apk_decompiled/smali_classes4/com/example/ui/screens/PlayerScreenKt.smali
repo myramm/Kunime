@@ -3091,43 +3091,6 @@
     .line 298
     nop
 
-    # Derive current episode slug and title from streamState if Success
-    invoke-static/range {v20 .. v20}, Lcom/example/ui/screens/PlayerScreenKt;->PlayerScreen$lambda$1(Landroidx/compose/runtime/State;)Lcom/example/ui/viewmodel/UiState;
-
-    move-result-object v0
-
-    instance-of v1, v0, Lcom/example/ui/viewmodel/UiState$Success;
-
-    if-eqz v1, :cond_skip_stream_override
-
-    check-cast v0, Lcom/example/ui/viewmodel/UiState$Success;
-
-    invoke-virtual {v0}, Lcom/example/ui/viewmodel/UiState$Success;->getData()Ljava/lang/Object;
-
-    move-result-object v0
-
-    check-cast v0, Lcom/example/data/model/EpisodeDetailData;
-
-    if-eqz v0, :cond_skip_stream_override
-
-    invoke-virtual {v0}, Lcom/example/data/model/EpisodeDetailData;->getTitle()Ljava/lang/String;
-
-    move-result-object v1
-
-    if-eqz v1, :cond_skip_title_override
-
-    move-object/from16 p3, v1
-
-    :cond_skip_title_override
-    invoke-virtual {v0}, Lcom/example/data/model/EpisodeDetailData;->getSlug()Ljava/lang/String;
-
-    move-result-object v0
-
-    if-eqz v0, :cond_skip_stream_override
-
-    move-object/from16 p0, v0
-
-    :cond_skip_stream_override
     .line 302
     new-instance v0, Lcom/example/ui/screens/PlayerScreenKt$$ExternalSyntheticLambda17;
 
@@ -16995,7 +16958,7 @@
 .end method
 
 .method static final PlayerScreen$lambda$102$lambda$101$lambda$61$lambda$55$lambda$54(Ljava/lang/String;Landroid/webkit/WebView;)Lkotlin/Unit;
-    .locals 2
+    .locals 1
     .param p0, "$urlToLoad"    # Ljava/lang/String;
     .param p1, "view"    # Landroid/webkit/WebView;
 
@@ -17012,25 +16975,29 @@
 
     move-result v0
 
-    if-lez v0, :cond_1
+    if-lez v0, :cond_0
 
-    .line 465
+    const/4 v0, 0x1
+
+    goto :goto_0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :goto_0
+    if-eqz v0, :cond_1
+
     invoke-virtual {p1}, Landroid/webkit/WebView;->getUrl()Ljava/lang/String;
 
     move-result-object v0
 
     invoke-static {v0, p0}, Lkotlin/jvm/internal/Intrinsics;->areEqual(Ljava/lang/Object;Ljava/lang/Object;)Z
 
-    move-result v1
+    move-result v0
 
-    if-nez v1, :cond_1
+    if-nez v0, :cond_1
 
-    invoke-virtual {p1}, Landroid/webkit/WebView;->stopLoading()V
-
-    const/4 v1, 0x1
-
-    invoke-virtual {p1, v1}, Landroid/webkit/WebView;->clearCache(Z)V
-
+    .line 465
     invoke-virtual {p1, p0}, Landroid/webkit/WebView;->loadUrl(Ljava/lang/String;)V
 
     .line 467
