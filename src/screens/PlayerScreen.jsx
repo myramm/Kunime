@@ -291,6 +291,10 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
                         src={ep.thumbnail || animeDetail?.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
                         alt={ep.title}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = animeDetail?.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300';
+                        }}
                       />
                       {isActive && (
                         <div className="absolute inset-0 bg-[#6366F1]/40 flex items-center justify-center">

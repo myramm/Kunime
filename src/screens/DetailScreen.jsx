@@ -36,13 +36,14 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
 
   function handleWatchlistToggle() {
     if (!detail) return;
+    const is18Plus = detail.type === '18+' || detail.source === 'minioppai' || (detail.genres && detail.genres.some(g => /ecchi|hentai/i.test(g)));
     const item = {
       slug: detail.slug || animeSlug,
       title: detail.title,
       thumbnail: detail.thumbnail,
       rating: '9.2',
       status: detail.status || 'Completed',
-      type: detail.type || 'TV Series',
+      type: is18Plus ? '18+' : (detail.type || 'TV Series'),
     };
     const newState = storage.toggleWatchlist(item);
     setIsWatchlist(newState);
@@ -85,6 +86,8 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
     ? episodes.filter((_, idx) => String(idx + 1).includes(jumpQuery))
     : visibleEpisodes;
 
+  const is18Plus = detail.type === '18+' || detail.source === 'minioppai' || (detail.genres && detail.genres.some(g => /ecchi|hentai/i.test(g)));
+
   return (
     <div className="flex flex-col w-full pb-24 max-w-2xl mx-auto">
       {/* Detail Top Sub-Bar */}
@@ -96,22 +99,25 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
           <span className="material-symbols-outlined text-[18px]">arrow_back</span>
           <span>Kembali</span>
         </button>
-        <span className="font-space font-bold text-[13px] text-[#e5e1e4] truncate max-w-[200px]">
+        <span className="font-space text-[11px] text-[#908fa0] truncate max-w-[200px]">
           {detail.title}
         </span>
         <button
-          onClick={() => {
-            if (navigator.share) {
-              navigator.share({ title: detail.title, url: window.location.href }).catch(() => {});
-            }
-          }}
-          className="text-[#c7c4d7] hover:text-white"
+          onClick={handleWatchlistToggle}
+          className={`flex items-center gap-1 px-2.5 py-1 rounded font-space font-semibold text-[11px] border transition-colors ${
+            isWatchlist
+              ? 'bg-[#6366F1] text-white border-[#6366F1]'
+              : 'bg-[#201f21] text-[#c7c4d7] border-[#262630] hover:bg-[#2a2a2c]'
+          }`}
         >
-          <span className="material-symbols-outlined text-[18px]">share</span>
+          <span className={`material-symbols-outlined text-[14px] ${isWatchlist ? 'fill' : ''}`}>
+            {isWatchlist ? 'bookmark' : 'add'}
+          </span>
+          <span>{isWatchlist ? 'Tersimpan' : 'Watchlist'}</span>
         </button>
       </div>
 
-      {/* Compact Hero Section */}
+      {/* Hero Poster & Info Header Card */}
       <section className="p-4 bg-[#1c1b1d] border-b border-[#262630]">
         <div className="flex gap-3">
           {/* Poster Column */}
@@ -137,9 +143,15 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
                 <span className="px-1.5 py-0.5 rounded bg-[#00885d]/30 text-[#4edea3] font-space font-bold text-[9px] uppercase tracking-wider border border-[#00885d]/50">
                   {detail.status || 'Completed'}
                 </span>
-                <span className="px-1.5 py-0.5 rounded bg-[#353437] text-[#c7c4d7] font-space font-semibold text-[9px] border border-[#464554]">
-                  HD 1080p
-                </span>
+                {is18Plus ? (
+                  <span className="px-1.5 py-0.5 rounded bg-[#ef4444]/25 text-[#ffb4ab] font-space font-bold text-[9px] uppercase tracking-wider border border-[#ef4444]/40">
+                    18+
+                  </span>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded bg-[#353437] text-[#c7c4d7] font-space font-semibold text-[9px] border border-[#464554]">
+                    HD 1080p
+                  </span>
+                )}
               </div>
               <h2 className="font-space font-bold text-[16px] text-[#e5e1e4] line-clamp-2 leading-tight mt-0.5">
                 {detail.title}
@@ -151,7 +163,7 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
 
             <div className="flex flex-col gap-1 mt-2">
               <div className="flex items-center gap-1.5 text-[#908fa0] font-space text-[11px] flex-wrap">
-                <span>{detail.type || 'TV Series'}</span>
+                <span>{is18Plus ? '18+' : (detail.type || 'TV Series')}</span>
                 <span>•</span>
                 <span>{detail.episodesCount || `${episodes.length} Episodes`}</span>
                 {detail.season && (
@@ -310,6 +322,10 @@ export default function DetailScreen({ animeSlug, onBack, onPlayEpisode }) {
                       src={ep.thumbnail || detail.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
                       alt={ep.title}
                       loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = detail?.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300';
+                      }}
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                       <span className="material-symbols-outlined text-[18px] text-white">play_arrow</span>

@@ -65,14 +65,12 @@ export default function App() {
   }
 
   function handleBackFromPlayer() {
-    if (window.history.state && window.history.state.tab === 'player') {
-      window.history.back();
+    if (selectedAnimeSlug) {
+      setCurrentTab('detail');
+      window.history.pushState({ tab: 'detail', animeSlug: selectedAnimeSlug }, '');
     } else {
-      if (selectedAnimeSlug) {
-        setCurrentTab('detail');
-      } else {
-        setCurrentTab('home');
-      }
+      setCurrentTab('home');
+      window.history.pushState({ tab: 'home' }, '');
     }
   }
 

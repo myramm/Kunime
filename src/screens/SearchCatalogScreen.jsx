@@ -98,13 +98,14 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
 
   function toggleWatchlist(item, e) {
     e.stopPropagation();
+    const is18Plus = item.type === '18+' || item.source === 'minioppai' || (item.url && item.url.includes('/api/anime/detail/'));
     storage.toggleWatchlist({
       slug: item.slug,
       title: item.title,
       thumbnail: item.thumbnail,
       rating: '9.0',
       status: item.status || 'Completed',
-      type: item.type || 'TV Series',
+      type: is18Plus ? '18+' : (item.type || 'TV Series'),
     });
     updateWatchlistMap();
   }
@@ -315,6 +316,7 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
           <div className="flex flex-col gap-2.5">
             {results.map((item) => {
               const inWatchlist = !!watchlistMap[item.slug];
+              const is18Plus = item.type === '18+' || item.source === 'minioppai' || (item.url && item.url.includes('/api/anime/detail/'));
               return (
                 <article
                   key={item.slug}
@@ -329,8 +331,12 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
                       alt={item.title || item.name || 'Anime'}
                       loading="lazy"
                     />
-                    <span className="absolute top-1 left-1 bg-[#0e0e10]/90 font-space font-bold text-[8px] text-[#4edea3] px-1 py-0.5 rounded">
-                      {item.type || 'TV'}
+                    <span className={`absolute top-1 left-1 font-space font-bold text-[8px] px-1 py-0.5 rounded ${
+                      is18Plus
+                        ? 'bg-[#ef4444] text-white shadow-sm'
+                        : 'bg-[#0e0e10]/90 text-[#4edea3]'
+                    }`}>
+                      {is18Plus ? '18+' : (item.type || 'TV')}
                     </span>
                   </div>
 
@@ -344,8 +350,10 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
                         {item.latestEpisode || item.status || 'Full Episode'}
                       </p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="font-space font-semibold text-[10px] text-[#c0c1ff]">
-                          {item.type || 'TV Series'}
+                        <span className={`font-space font-semibold text-[10px] ${
+                          is18Plus ? 'text-[#ffb4ab]' : 'text-[#c0c1ff]'
+                        }`}>
+                          {is18Plus ? '18+ Animation' : (item.type || 'TV Series')}
                         </span>
                         <span>•</span>
                         <span className="font-space font-bold text-[10px] text-[#4edea3] flex items-center gap-0.5">
