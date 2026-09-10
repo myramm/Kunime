@@ -326,7 +326,7 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
                     <img
                       className="w-full h-full object-cover"
                       src={item.thumbnail || 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300'}
-                      alt={item.title}
+                      alt={item.title || item.name || 'Anime'}
                       loading="lazy"
                     />
                     <span className="absolute top-1 left-1 bg-[#0e0e10]/90 font-space font-bold text-[8px] text-[#4edea3] px-1 py-0.5 rounded">
@@ -338,7 +338,7 @@ export default function SearchCatalogScreen({ onSelectAnime }) {
                   <div className="flex flex-col justify-between flex-1 min-w-0">
                     <div className="flex flex-col">
                       <h4 className="font-space font-bold text-[13px] text-[#e5e1e4] leading-tight line-clamp-1">
-                        {item.title}
+                        {item.title || item.name}
                       </h4>
                       <p className="font-space text-[11px] text-[#908fa0] truncate mt-0.5">
                         {item.latestEpisode || item.status || 'Full Episode'}
