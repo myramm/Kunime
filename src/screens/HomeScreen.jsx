@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { api, storage } from '../services/api';
 
 export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate }) {
@@ -8,6 +8,13 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
   const [lowDataMode, setLowDataMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Pull-to-refresh state
+  const [pullY, setPullY] = useState(0);         // current pull distance (px)
+  const [isPulling, setIsPulling] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const touchStartY = useRef(0);
+  const PULL_THRESHOLD = 70;
 
   useEffect(() => {
     // Load local state
@@ -89,8 +96,62 @@ export default function HomeScreen({ onSelectAnime, onPlayEpisode, onNavigate })
     return title.replace(/^Nonton\s+/i, '').replace(/Episode\s+\d+.*$/i, '').trim();
   }
 
+  // Pull-to-refresh handlers
+  function handleTouchStart(e) {
+    if (window.scrollY === 0 && !isRefreshing) {
+      touchStartY.current = e.touches[0].clientY;
+      setIsPulling(true);
+    }
+  }
+
+  function handleTouchMove(e) {
+    if (!isPulling) return;
+    const delta = e.touches[0].clientY - touchStartY.current;
+    if (delta > 0) {
+      // Rubber-band: resist after 40px
+      const distance = Math.min(delta * 0.5, PULL_THRESHOLD + 20);
+      setPullY(distance);
+    }
+  }
+
+  async function handleTouchEnd() {
+    if (!isPulling) return;
+    setIsPulling(false);
+    if (pullY >= PULL_THRESHOLD && !isRefreshing && !loading) {
+      setIsRefreshing(true);
+      setPullY(0);
+      await loadHomeData();
+      setIsRefreshing(false);
+    } else {
+      setPullY(0);
+    }
+  }
+
   return (
-    <div className="flex flex-col w-full px-4 pb-24 max-w-2xl mx-auto">
+    <div
+      className="flex flex-col w-full px-4 pb-24 max-w-2xl mx-auto"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {/* Pull-to-Refresh Indicator */}
+      {(pullY > 0 || isRefreshing) && (
+        <div
+          className="flex items-center justify-center gap-2 overflow-hidden transition-all"
+          style={{ height: isRefreshing ? 48 : pullY, opacity: isRefreshing ? 1 : pullY / PULL_THRESHOLD }}
+        >
+          <span
+            className={`material-symbols-outlined text-[#6366F1] text-[22px] ${isRefreshing ? 'animate-spin' : ''}`}
+            style={!isRefreshing ? { transform: `rotate(${(pullY / PULL_THRESHOLD) * 180}deg)` } : {}}
+          >
+            {isRefreshing ? 'progress_activity' : 'arrow_downward'}
+          </span>
+          <span className="font-space text-[12px] text-[#c7c4d7]">
+            {isRefreshing ? 'Memuat ulang...' : pullY >= PULL_THRESHOLD ? 'Lepas untuk refresh' : 'Tarik untuk refresh'}
+          </span>
+        </div>
+      )}
+
       {/* 1. Low-Data Mode Pill */}
       <section className="w-full pt-3 pb-2">
         <div className="w-full bg-[#1c1b1d] px-3 py-2 rounded-lg flex items-center justify-between border border-[#262630]">

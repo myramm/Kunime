@@ -16,10 +16,54 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
 
   useEffect(() => {
     if (!episodeSlug) return;
-    loadEpisode();
     const settings = storage.getSettings();
     setAutoNext(settings.autoNext ?? true);
-  }, [episodeSlug]);
+
+    let cancelled = false;
+
+    async function fetchEpisode() {
+      setLoading(true);
+      setError(null);
+      setEpData(null); // reset stale episode data immediately
+      try {
+        const epRes = await api.getEpisodeDetail(episodeSlug);
+        if (cancelled) return;
+        if (epRes && epRes.data) {
+          setEpData(epRes.data);
+
+          const catId = epRes.data.categories && epRes.data.categories.length > 0 ? epRes.data.categories[0] : null;
+          const resolvedDetail = await api.resolveAnimeDetail(animeSlug || epRes.data.title, catId);
+          if (cancelled) return;
+          if (resolvedDetail) {
+            setAnimeDetail(resolvedDetail);
+          }
+
+          // Save to history
+          storage.saveHistoryItem({
+            animeSlug: resolvedDetail?.slug || animeSlug || '',
+            episodeSlug: episodeSlug,
+            animeTitle: resolvedDetail?.title || cleanAnimeTitle(epRes.data.title),
+            episodeTitle: epRes.data.title,
+            thumbnail: epRes.data.thumbnail || resolvedDetail?.thumbnail,
+            currentTime: 0,
+            duration: 1440,
+            watchedPercentage: 10,
+          });
+        } else {
+          setError('Episode tidak dapat dimuat.');
+        }
+      } catch (err) {
+        if (cancelled) return;
+        console.error(err);
+        setError('Gagal memuat video stream.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    fetchEpisode();
+    return () => { cancelled = true; };
+  }, [episodeSlug, animeSlug]);
 
   async function loadEpisode() {
     setLoading(true);
@@ -147,6 +191,7 @@ export default function PlayerScreen({ episodeSlug, animeSlug, onBack, onSelectE
           <div className="relative w-full h-full">
             {/* Stream Player Iframe / Video */}
             <iframe
+              key={episodeSlug}
               ref={iframeRef}
               src={streamSrc}
               title={epData?.title || 'Player'}
